@@ -1,7 +1,7 @@
 #define _POSIX_C_SOURCE 200112L
 
 
-#define PORT "5501"
+#define PORT "5500"
 #define BACKLOG 10
 
 #include <stdio.h>
