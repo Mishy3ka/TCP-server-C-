@@ -12,6 +12,7 @@
 #include <netdb.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
+#include <sys/wait.h>
 
 int main() {
 
@@ -20,8 +21,6 @@ int main() {
     socklen_t size = sizeof(client_addr);
     char IP_client[INET6_ADDRSTRLEN];
     int sockfd, client_sockfd;
-    char *msg = "Hello Network\n";
-    int len = strlen(msg);
     char buf[256];
     int size_client_msg;
 
@@ -63,12 +62,17 @@ int main() {
 
     printf("Server is listening...\n");
 
+
     while(1){
         
+        while(waitpid(-1, NULL, WNOHANG) > 0);
+
     if((client_sockfd = accept(sockfd, (struct sockaddr*) &client_addr, &size)) == -1){
         perror("Server:accept");
-        exit(1);
+        continue;
     }
+
+
     if(fork() == 0) {
 
         close(sockfd);
